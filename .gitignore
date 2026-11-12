@@ -1,0 +1,16 @@
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor & IDE artifacts
+.vscode/
+*.swp
+*.swo
+
+# Local agent testing artifacts (keep .claude/commands/ but ignore local session data)
+.claude/settings.json
+.claude/settings.local.json
+.gemini/
+*.log
+
