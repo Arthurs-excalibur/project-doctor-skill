@@ -148,7 +148,8 @@ The skill runs in phases, regardless of mode:
 5. **Execute incrementally** — makes the smallest coherent change, runs checks, inspects the diff, then continues.
 6. **Repair regressions** — if a check fails after a change, traces it to the root cause and fixes it before moving on.
 7. **Final verification** — reruns all relevant checks and compares against the baseline.
-8. **Deployment audit** — evaluates hosting options against your app's actual requirements, verifies free-tier limits, and produces a concrete plan.
+8. **Pre-launch security gate** — checks for exposed API keys, unauthenticated mutation routes, raw database access rules, and high/critical dependency CVEs.
+9. **Deployment audit** — evaluates hosting options against your app's actual requirements, verifies free-tier limits, and produces a concrete plan.
 
 ---
 

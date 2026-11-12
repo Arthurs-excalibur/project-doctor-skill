@@ -326,7 +326,34 @@ Recommend the fewest services that satisfy the workload.
 
 Explain why each service belongs in the architecture, what it costs at the expected usage, and what constraints might require a different choice.
 
-## Phase 10: Deployment Readiness
+## Phase 10: Pre-Launch Security Gate
+
+Run a mandatory pre-launch security check before approving any deployment or production release:
+
+1. **Secret & Key Exposure:**
+   - Scan git tracking, committed files, and frontend bundles for hardcoded secrets (API keys, JWT secrets, Stripe secret keys, database connection URIs, service-role keys).
+   - Verify client-exposed variables (`NEXT_PUBLIC_*`, `VITE_*`, `PUBLIC_*`, `REACT_APP_*`) contain only public identifiers, never server-only secrets or admin tokens.
+   - Verify `.env*` files containing live secrets are in `.gitignore` and not tracked in git history.
+
+2. **Authentication & Authorization (IDOR & Protected Routes):**
+   - Check all mutation endpoints (POST, PUT, PATCH, DELETE) and sensitive data queries for active session or token validation.
+   - Verify record access enforces ownership using authenticated user/tenant context from the session, not unverified client parameters (preventing Insecure Direct Object Reference).
+
+3. **Input Validation & Injection Defense:**
+   - Verify database queries use parameterized statements or ORM queries. Flag raw string interpolation in SQL or database calls.
+   - Check frontend rendering for raw HTML injection (`dangerouslySetInnerHTML`, `v-html`, unescaped template output).
+   - Check user file uploads for mime-type verification, maximum file size limits, and safe remote storage paths.
+
+4. **Access Control & Data Store Security:**
+   - For backend-as-a-service (Supabase, Firebase): verify Row Level Security (RLS) or security rules are enabled on all user tables. Flag permissive policies such as `USING (true)` on mutation operations.
+   - For APIs: verify CORS policy does not allow `origin: '*'` with credentials. Verify authentication cookies set `HttpOnly`, `Secure`, and `SameSite` flags.
+
+5. **Known Dependency Vulnerabilities:**
+   - Run non-destructive dependency audit commands (`npm audit`, `pip-audit`, `cargo audit`) when available. Flag high and critical production vulnerabilities.
+
+Classify exposed secrets or unauthenticated mutation endpoints as **BROKEN (CRITICAL BLOCKER)**. Do not recommend or trigger deployment while hardcoded secrets or unprotected mutations exist.
+
+## Phase 11: Deployment Readiness
 
 Before recommending production deployment, inspect:
 
@@ -348,13 +375,14 @@ Do not deploy, create billable infrastructure, change production DNS, migrate pr
 
 A deployment plan is not a successful deployment. Report the distinction clearly.
 
-## Phase 11: Final Report
+## Phase 12: Final Report
 
 Provide a concise but useful report containing:
 
-### 1. Project health
+### 1. Project health & Security
 - Detected stack and architecture.
 - Baseline status.
+- Pre-launch security gate findings (secrets exposure, auth/IDOR, RLS, dependency audit).
 - Major risks and blockers.
 
 ### 2. Cleanup results

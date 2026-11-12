@@ -7,5 +7,6 @@ Analyze the application architecture and produce a deployment recommendation:
 4. Verify free-tier availability, quotas, limits, sleep policies, and upgrade triggers using current documentation.
 5. Compare at least one simple architecture and one alternative.
 6. Recommend the fewest services that satisfy the workload.
-7. Produce a deployment readiness checklist with required environment variables, build commands, and configuration.
+7. Run Pre-Launch Security Gate: verify zero exposed or hardcoded secrets, protected mutation routes, and database access controls.
+8. Produce a deployment readiness checklist with required environment variables, build commands, and configuration.
 
