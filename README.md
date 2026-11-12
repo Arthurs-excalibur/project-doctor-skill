@@ -152,27 +152,4 @@ The skill runs in phases, regardless of mode:
 
 ---
 
-## Repo structure
-
-```
-project-doctor/
-├── skills/
-│   └── project-doctor/
-│       └── SKILL.md              # skill definition (Claude Code, Antigravity, open standard)
-├── .claude/
-│   └── commands/
-│       ├── doctor.md             # /doctor slash command
-│       ├── doctor-fix.md         # /doctor-fix slash command
-│       └── doctor-deploy.md      # /doctor-deploy slash command
-├── .cursor/
-│   └── rules/
-│       └── project-doctor.mdc    # Cursor rule
-├── install.sh                    # one-liner installer (macOS / Linux)
-├── install.ps1                   # one-liner installer (Windows)
-├── .gitignore
-└── LICENSE                       # MIT
-```
-
----
-
 **Project Doctor — Check it. Fix it. Ship it.**
